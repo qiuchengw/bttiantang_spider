@@ -73,9 +73,14 @@ class MovieSpider:
 		all = html.xpath("////div[@class='item cl']/div[@class='title']")
 		for itm in all:
 			# 评分
-			s_rate1 = itm.xpath("./p[@class='rt']/strong")[0].text
-			s_rate2 = itm.xpath("./p[@class='rt']/em[@class='fm']")[0].text
-			rate = string.atof(s_rate1 + '.' + s_rate2)
+			rate = 0.0
+			dom_rate = itm.xpath("./p[@class='rt']/strong")
+			if len(dom_rate) == 0:
+				print "Not Valid Rate!"
+			else:
+				s_rate1 = itm.xpath("./p[@class='rt']/strong")[0].text
+				s_rate2 = itm.xpath("./p[@class='rt']/em[@class='fm']")[0].text
+				rate = string.atof(s_rate1 + '.' + s_rate2)
 			# print "rate:%f" %rate
 			
 			# 别名
