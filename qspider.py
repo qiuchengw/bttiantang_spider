@@ -83,12 +83,16 @@ class MovieSpider:
 			#print "alias:" + s_alias
 			
 			#描述，包括国家，出品年份
-			s_des = itm.xpath("./p[@class='des']")[0].text.split("(")
 			s_year = "0000"
 			s_nation = "N/A"
-			if len(s_des) == 2:
-				s_year = s_des[0]
-				s_nation = s_des[1].replace(')','')
+			des = itm.xpath("./p[@class='des']")[0].text
+			if des is None:
+				print "not valid description"
+			else:
+				s_des = des.split("(")
+				if len(s_des) == 2:
+					s_year = s_des[0]
+					s_nation = s_des[1].replace(')','')
 			# print "des:" + s_year + "--" + s_nation
 			
 			# ------------------------
@@ -116,9 +120,6 @@ class MovieSpider:
 				s_date = dom_t[0].text		# 灰色的
 			# print "date:" + s_date
 			
-			print "Alrigh ----------------"
-			print "Save to DB^^^^^^"
-			
 			# 保存到数据库中
 			s_title = self.normal_str(s_title)
 			s_alias = self.normal_str(s_alias)
@@ -130,6 +131,7 @@ class MovieSpider:
 			self.db_conn.execute(sqlsx)
 			
 		# 一个页面一次性提交
+		print "----------------->Save to DB : page %d"%page
 		self.db_conn.execute("insert into page(page) values(%d)"%(page))
 		self.db_conn.commit();
 	
