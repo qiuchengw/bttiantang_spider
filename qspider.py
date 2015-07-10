@@ -167,5 +167,5 @@ class MovieSpider:
 if __name__=="__main__":
 	# 下载前10页		
 	inst = MovieSpider("movies.db")	
-	for i in range(inst.get_last_page() + 1, 684):
+	for i in range(inst.get_last_page() + 1, 685):
 		inst.download_page(i)
